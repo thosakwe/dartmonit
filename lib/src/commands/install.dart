@@ -18,7 +18,7 @@ class InstallCommand extends Command {
       return;
     }
 
-    var scriptFile = new File('/etc/init.d/dartmonit.sh');
+    var scriptFile = new File('/etc/init.d/dartmonit');
     var logFile = new File('/var/log/dartmonit.log');
 
     if (!await scriptFile.exists()) await scriptFile.create(recursive: true);
