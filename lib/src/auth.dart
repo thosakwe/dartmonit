@@ -1,2 +1,2 @@
-library dartmon.src.auth;
+library dartmonit.src.auth;
 

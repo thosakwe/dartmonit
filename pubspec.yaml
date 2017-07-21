@@ -1,21 +1,21 @@
-name: dartmon
-version: 0.0.0
-description: Monitor Dart scripts, and run them on startup.
-author: Tobe O <thosakwe@gmail.com>
-homepage: https://github.com/thosakwe/dartmon
-environment:
+author: "Tobe O <thosakwe@gmail.com>"
+description: "Monitor Dart scripts, and run them on startup."
+homepage: "https://github.com/thosakwe/dartmon"
+name: "dartmonit"
+version: "0.0.0"
+dependencies: 
+  angel_diagnostics: "^1.0.0"
+  angel_framework: "^1.0.0"
+  angel_security: "^1.0.0"
+  angel_serialize: "^1.0.0-alpha"
+  angel_validate: "^1.0.0"
+  args: "^0.13.4"
+  http: "^0.11.3"
+  resource: "^1.0.0"
+dev_dependencies: 
+  angel_serialize_generator: "^1.0.0-alpha"
+  build_runner: "^0.3.0"
+environment: 
   sdk: ">=1.19.0"
-dependencies:
-  angel_diagnostics: ^1.0.0
-  angel_framework: ^1.0.0
-  angel_serialize: ^1.0.0-alpha
-  angel_security: ^1.0.0
-  angel_validate: ^1.0.0
-  args: ^0.13.4
-  http: ^0.11.3
-  resource: ^1.0.0
-dev_dependencies:
-  angel_serialize_generator: ^1.0.0-alpha
-  build_runner: ^0.3.0
-executables:
-  dartmon: dartmon
+executables: 
+  dartmonit: "dartmon"

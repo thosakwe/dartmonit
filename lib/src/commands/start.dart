@@ -10,21 +10,21 @@ class StartCommand extends Command {
   String get name => 'start';
 
   @override
-  String get description => 'Starts the dartmon HTTP server.';
+  String get description => 'Starts the dartmonit HTTP server.';
 
   StartCommand() {
     argParser
       ..addOption('concurrency',
           abbr: 'j',
           help:
-              'The number of isolates to run the dartmon HTTP server on. Default: 1',
+              'The number of isolates to run the dartmonit HTTP server on. Default: 1',
           defaultsTo: '1')
       ..addOption('host',
           help: 'The hostname to listen at. Default: 127.0.0.1',
           defaultsTo: '127.0.0.1')
       ..addOption('port',
           abbr: 'p',
-          help: 'The port for the dartmon server to listen on. Default: 2245',
+          help: 'The port for the dartmonit server to listen on. Default: 2245',
           defaultsTo: '2245');
   }
 
@@ -92,7 +92,7 @@ class StartCommand extends Command {
 
     var server = await app.startServer(new InternetAddress(host), port);
     print(
-        'Dartmon HTTP listening at http://${server.address.address}:${server.port}');
+        'dartmonit HTTP listening at http://${server.address.address}:${server.port}');
   }
 }
 

@@ -27,7 +27,7 @@ class DartmonClient {
       throw new AngelHttpException.fromJson(response.body);
     else if (response.headers['content-type']?.contains('application/json') !=
         true)
-      throw 'dartmon server did not respond with JSON';
+      throw 'dartmonit server did not respond with JSON';
     else
       return new ChildProcessInfo.fromJson(JSON.decode(response.body));
   }
@@ -40,7 +40,7 @@ class DartmonClient {
       throw new AngelHttpException.fromJson(response.body);
     else if (response.headers['content-type']?.contains('application/json') !=
         true)
-      throw 'dartmon server did not respond with JSON';
+      throw 'dartmonit server did not respond with JSON';
     else
       return new ChildProcessInfo.fromJson(JSON.decode(response.body));
   }
@@ -53,7 +53,7 @@ class DartmonClient {
       throw new AngelHttpException.fromJson(response.body);
     else if (response.headers['content-type']?.contains('application/json') !=
         true)
-      throw 'dartmon server did not respond with JSON';
+      throw 'dartmonit server did not respond with JSON';
     else
       return new ChildProcessInfo.fromJson(JSON.decode(response.body));
   }
@@ -66,7 +66,7 @@ class DartmonClient {
       throw new AngelHttpException.fromJson(response.body);
     else if (response.headers['content-type']?.contains('application/json') !=
         true)
-      throw 'dartmon server did not respond with JSON';
+      throw 'dartmonit server did not respond with JSON';
     else
       return JSON
           .decode(response.body)
@@ -81,12 +81,12 @@ class DartmonClient {
       throw new AngelHttpException.fromJson(response.body);
     else if (response.headers['content-type']?.contains('application/json') !=
         true)
-      throw 'dartmon server did not respond with JSON';
+      throw 'dartmonit server did not respond with JSON';
     else {
       var body = JSON.decode(response.body);
 
       if (!const MapEquality().equals(body, {'ok': true})) {
-        throw 'dartmon server did not accept our shutdown request';
+        throw 'dartmonit server did not accept our shutdown request';
       }
     }
   }

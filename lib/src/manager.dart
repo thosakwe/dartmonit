@@ -19,7 +19,7 @@ class ChildProcessManager {
       return _dartmonDir;
     else {
       var dir = _dartmonDir = new Directory.fromUri(
-          new Directory(userHome).uri.resolve('.dartmon'));
+          new Directory(userHome).uri.resolve('.dartmonit'));
       if (!await dir.exists()) await dir.create(recursive: true);
       return _dartmonDir;
     }

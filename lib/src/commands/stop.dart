@@ -8,7 +8,7 @@ class StopCommand extends Command {
   String get name => 'stop';
 
   @override
-  String get description => 'Instructs an active dartmon server to shut down.';
+  String get description => 'Instructs an active dartmonit server to shut down.';
 
   StopCommand() {
     addClientArgs(argParser);

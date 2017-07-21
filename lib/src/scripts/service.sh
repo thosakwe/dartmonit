@@ -1,30 +1,30 @@
 #!/usr/bin/env bash
 PUB_EXECUTABLE=/usr/lib/dart/bin/pub
 
-NAME=dartmon
-PIDFILE=/var/run/dartmon.pid
-LOGFILE=/var/log/dartmon.log
+NAME=dartmonit
+PIDFILE=/var/run/dartmonit.pid
+LOGFILE=/var/log/dartmonit.log
 DESCRIPTION="Monitor Dart scripts, and run them on startup."
-START_SCRIPT=${PUB_EXECUTABLE} global run dartmon start
+START_SCRIPT=${PUB_EXECUTABLE} global run dartmonit start
 
 start() {
     if [ -f ${PIDFILE} ] && kill -0 $(cat ${PIDFILE}); then
-        echo 'dartmon already running' >&2
+        echo 'dartmonit already running' >&2
         return 1
     fi
-    echo 'Starting dartmon…' >&2
-    ${PUB_EXECUTABLE} global run dartmon start &> \"${LOGFILE}\" & echo \$! > "$PIDFILE"
-    echo 'dartmon started' >&2
+    echo 'Starting dartmonit…' >&2
+    ${PUB_EXECUTABLE} global run dartmonit start &> \"${LOGFILE}\" & echo \$! > "$PIDFILE"
+    echo 'dartmonit started' >&2
 }
 
 stop() {
     if [ ! -f "$PIDFILE" ] || ! kill -0 $(cat "$PIDFILE"); then
-        echo 'dartmon is not running' >&2
+        echo 'dartmonit is not running' >&2
         return 1
     fi
-    echo 'Stopping dartmon…' >&2
+    echo 'Stopping dartmonit…' >&2
     kill -15 $(cat "$PIDFILE") && rm -f "$PIDFILE"
-    echo 'dartmon stopped' >&2
+    echo 'dartmonit stopped' >&2
 }
 
 uninstall() {
@@ -33,7 +33,7 @@ uninstall() {
     read SURE
     if [ "$SURE" = "yes" ]; then
         stop
-        ${PUB_EXECUTABLE} global deactivate dartmon
+        ${PUB_EXECUTABLE} global deactivate dartmonit
         rm -f "$PIDFILE"
         echo "Notice: log file will not be removed: '$LOGFILE'" >&2
         update-rc.d -f <NAME> remove

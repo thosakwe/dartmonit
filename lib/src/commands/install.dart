@@ -8,23 +8,23 @@ class InstallCommand extends Command {
 
   @override
   String get description =>
-      'Adds a shell script to /etc/init.d to run dartmon on startup.';
+      'Adds a shell script to /etc/init.d to run dartmonit on startup.';
 
   @override
   run() async {
     if (Platform.isWindows) {
-      stderr.writeln('dartmon does not support being installed as a daemon on Windows.');
+      stderr.writeln('dartmonit does not support being installed as a daemon on Windows.');
       exit(1);
       return;
     }
 
-    var scriptFile = new File('/etc/init.d/dartmon.sh');
-    var logFile = new File('/var/log/dartmon.log');
+    var scriptFile = new File('/etc/init.d/dartmonit.sh');
+    var logFile = new File('/var/log/dartmonit.log');
 
     if (!await scriptFile.exists()) await scriptFile.create(recursive: true);
 
     var sink = scriptFile.openWrite();
-    var resx = new Resource('package:dartmon/src/scripts/service.sh');
+    var resx = new Resource('package:dartmonit/src/scripts/service.sh');
     await resx.openRead().pipe(sink);
 
     print('Successfully wrote ${scriptFile.absolute.path}');
@@ -46,18 +46,18 @@ class InstallCommand extends Command {
 
     print('Successfully marked ${scriptFile.absolute.path} as executable');
 
-    var updateRc = await Process.run('update-rc.d', ['dartmon', 'defaults']);
+    var updateRc = await Process.run('update-rc.d', ['dartmonit', 'defaults']);
 
     if (updateRc.exitCode != 0) {
       stderr.writeln(
-          '"update-rc.d dartmon defaults" exited with code ${updateRc.exitCode}');
+          '"update-rc.d dartmonit defaults" exited with code ${updateRc.exitCode}');
       stderr.writeln(updateRc.stdout);
       stderr.writeln(updateRc.stderr);
       exit(1);
       return;
     }
 
-    print('Successfully configured dartmon to run at startup');
+    print('Successfully configured dartmonit to run at startup');
     exit(0);
   }
 }

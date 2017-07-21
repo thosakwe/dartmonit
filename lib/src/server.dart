@@ -15,7 +15,7 @@ Future<Angel> dartmonServer(
   // Listen for shutdown call
   var shutdown = new ReceivePort();
   shutdown.listen((_) {
-    print('dartmon shutting down!!!');
+    print('dartmonit shutting down!!!');
     new Future.delayed(const Duration(seconds: 5)).then((_) {
       shutdown.close();
       app.close();
