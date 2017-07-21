@@ -1,0 +1,2 @@
+library dartmon.src.auth;
+
