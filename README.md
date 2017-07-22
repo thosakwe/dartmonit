@@ -57,13 +57,15 @@ Global options:
 -h, --help    Print this usage information.
 
 Available commands:
-  help      Display help information for dartmonit.
-  install   Adds a shell script to /etc/init.d to run dartmonit on startup.
-  kill      Halts the execution of a given command.
-  run       Spawns a child process at the given absolute path.
-  start     Starts the dartmonit HTTP server.
-  status    Fetches the status of a given process.
-  stop      Instructs an active dartmonit server to shut down.
+  help        Display help information for dartmonit.
+  install     Configures dartmonit to run at startup.
+  kill        Halts the execution of a given command.
+  remove      Removes a command from the list of processes to execute.
+  run         Spawns a child process at the given absolute path.
+  start       Starts the dartmonit HTTP server.
+  status      Fetches the status of a given process.
+  stop        Instructs an active dartmonit server to shut down.
+  uninstall   Uninstalls the dartmonit daemon.
 
 Run "dartmonit help <command>" for more information about a command.
 ```
