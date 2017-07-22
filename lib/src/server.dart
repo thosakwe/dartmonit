@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:isolate';
 import 'package:angel_diagnostics/angel_diagnostics.dart';
 import 'package:angel_framework/angel_framework.dart';
@@ -16,7 +17,7 @@ Future<Angel> dartmonServer(
   var shutdown = new ReceivePort();
   shutdown.listen((_) {
     print('dartmonit shutting down!!!');
-    new Future.delayed(const Duration(seconds: 5)).then((_) {
+    scheduleMicrotask(() {
       shutdown.close();
       app.close();
     });
@@ -47,7 +48,7 @@ Future<Angel> dartmonServer(
     return {'ok': true};
   });
 
-  await app.configure(logRequests());
+  await app.configure(logRequests(new File('/var/log/dartmonit.log')));
   app.justBeforeStop.add((_) => manager.shutdown());
   app.optimizeForProduction(force: true);
   return app;

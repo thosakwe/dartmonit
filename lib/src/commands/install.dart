@@ -24,7 +24,7 @@ class InstallCommand extends Command {
     if (!await scriptFile.exists()) await scriptFile.create(recursive: true);
 
     var sink = scriptFile.openWrite();
-    var resx = new Resource('package:dartmonit/src/scripts/service.sh');
+    var resx = new Resource('package:dartmonit/src/scripts/service.dart');
     await resx.openRead().pipe(sink);
 
     print('Successfully wrote ${scriptFile.absolute.path}');

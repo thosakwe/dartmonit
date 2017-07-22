@@ -24,6 +24,6 @@ class StopCommand extends Command {
     await client.stop();
     client.close();
 
-    print('Shutting down in 5 seconds...');
+    print('Shutting down...');
   }
 }
