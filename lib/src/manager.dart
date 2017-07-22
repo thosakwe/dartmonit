@@ -72,6 +72,8 @@ class ChildProcessManager {
     for (var info in _processes.values) {
       if (info._uri != null) sink.writeln(info._uri);
     }
+
+    await sink.close();
   }
 
   /// Kill all processes, and save a list for the next run.
