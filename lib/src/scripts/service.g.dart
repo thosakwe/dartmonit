@@ -62,8 +62,8 @@ Future start() async {
           ['global', 'run', 'dartmonit:dartmon', 'start'],
           mode: ProcessStartMode.DETACHED);
     } else {
-      process = await Process.start(
-          Platform.resolvedExecutable, [dartmonSnapshot.absolute.path, 'start'],
+      process = await Process.start('sudo',
+          [Platform.resolvedExecutable, dartmonSnapshot.absolute.path, 'start'],
           mode: ProcessStartMode.DETACHED);
     }
     if (!await pidFile.exists()) await pidFile.create(recursive: true);

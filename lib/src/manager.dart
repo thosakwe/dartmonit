@@ -56,7 +56,9 @@ class ChildProcessManager {
           .transform(UTF8.decoder)
           .transform(const LineSplitter())) {
         if (line.isNotEmpty) {
-          await start(Uri.parse(line));
+          var u = Uri.parse(line);
+          print('Launching "$u" from queue...');
+          await start(u);
         }
       }
     }
