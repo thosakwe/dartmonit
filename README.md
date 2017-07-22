@@ -1,7 +1,6 @@
 # dartmonit
 Monitor Dart scripts, and run them on startup. This is very early in the development stages, so expect some changes.
 
-
 Running `dartmonit` as a daemon is currently only supported on Linux and Windows.
 # Installation
 
