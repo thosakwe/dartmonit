@@ -85,6 +85,10 @@ class InstallCommand extends Command {
       var scriptFile = new File('/etc/init.d/dartmonit');
       var logFile = new File('/var/log/dartmonit.log');
 
+      if (!await homeDirFile.exists()) await homeDirFile.create(recursive: true);
+      await homeDirFile.writeAsString(Platform.environment['HOME']);
+      print('Successfully wrote home directory to ${homeDirFile.absolute.path}');
+
       if (!await scriptFile.exists()) await scriptFile.create(recursive: true);
 
       var sink = scriptFile.openWrite();

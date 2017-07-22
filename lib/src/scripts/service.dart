@@ -4,9 +4,11 @@ import 'dart:io';
 
 final File pidFile = new File('/var/run/dartmonit.pid');
 final File logFile = new File('/var/log/darmonit.log');
-final Directory homeDir = new Directory(Platform.isWindows
-    ? Platform.environment['USERPROFILE']
-    : Platform.environment['HOME']);
+final File homeDirFile = new File('/etc/dartmon/home_dir.txt');
+final Directory homeDir = new Directory((Platform.isWindows
+        ? Platform.environment['USERPROFILE']
+        : Platform.environment['HOME']) ??
+    homeDirFile.readAsStringSync());
 final Directory pubCacheDir = new Directory.fromUri(Platform.isWindows
     ? homeDir.uri.resolve('AppData/Roaming/Pub/Cache')
     : homeDir.uri.resolve('.pub-cache'));
