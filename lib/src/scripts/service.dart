@@ -23,7 +23,7 @@ main(List<String> args) async {
   try {
     if (args.isEmpty) {
       stderr.writeln(
-          'fatal error: no argument provided (expected start|stop|restart)');
+          'fatal error: no argument provided (expected start|stop|restart|status)');
       exitCode = 1;
     } else {
       switch (args.first) {
@@ -33,6 +33,8 @@ main(List<String> args) async {
           return await stop();
         case 'restart':
           return await restart();
+        case 'status':
+          return await status();
         default:
           stderr.writeln('unrecognized option: "${args.first}"');
           exitCode = 1;
@@ -68,6 +70,11 @@ Future start() async {
     }
     if (!await pidFile.exists()) await pidFile.create(recursive: true);
     await pidFile.writeAsString(process.pid.toString());
+
+    if (!await logFile.exists()) await logFile.create(recursive: true);
+    await logFile.writeAsString('dartmonit started with PID ${process.pid}',
+        mode: FileMode.APPEND);
+
     print('dartmonit started with PID ${process.pid}');
   }
 }
@@ -91,3 +98,15 @@ Future stop() async {
 }
 
 Future restart() => stop().then((_) => start());
+
+Future status() async {
+  if (!await pidFile.exists()) {
+    print('dartmonit is not running.');
+  } else {
+    var contents = await pidFile.readAsString();
+    var pid = int.parse(contents);
+
+    print('dartmonit is running; PID $pid');
+    print('Run "dartmonit status all" to view the status of all scripts.');
+  }
+}
