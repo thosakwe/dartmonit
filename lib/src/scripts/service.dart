@@ -44,7 +44,7 @@ Future start() async {
     print('Starting dartmonit...');
     var process = await Process.start(
         dartmonExecutable.absolute.path, ['start'],
-        mode: ProcessStartMode.DETACHED_WITH_STDIO);
+        mode: ProcessStartMode.DETACHED);
     if (!await pidFile.exists()) await pidFile.create(recursive: true);
     await pidFile.writeAsString(process.pid.toString());
     print('dartmonit started');
