@@ -25,7 +25,7 @@ for a look at how to set environment variables system-wide.
 
 To add a script to `/etc/init.d`:
 ```bash
-dartmonit install
+sudo dartmonit env "PATH=$PATH" install
 ```
 
 # Usage
