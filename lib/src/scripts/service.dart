@@ -7,11 +7,14 @@ final File logFile = new File('/var/log/darmonit.log');
 final Directory homeDir = new Directory(Platform.isWindows
     ? Platform.environment['USERPROFILE']
     : Platform.environment['HOME']);
-final Directory pubCacheBin = new Directory.fromUri(Platform.isWindows
-    ? homeDir.uri.resolve('AppData/Roaming/Pub/Cache/bin')
-    : homeDir.uri.resolve('.pub-cache/bin'));
-final File dartmonExecutable = new File.fromUri(pubCacheBin.uri
-    .resolve(Platform.isWindows ? 'dartmonit.bat' : 'dartmonit'));
+final Directory pubCacheDir = new Directory.fromUri(Platform.isWindows
+    ? homeDir.uri.resolve('AppData/Roaming/Pub/Cache')
+    : homeDir.uri.resolve('.pub-cache'));
+final File dartExecutable = new File(Platform.resolvedExecutable);
+final File windowsPubExecutable =
+    new File.fromUri(dartExecutable.uri.resolve('../bin/pub.bat'));
+final File dartmonExecutable = new File.fromUri(pubCacheDir.uri
+    .resolve('global_packages/dartmonit/bin/dartmon.dart.snapshot'));
 
 main(List<String> args) {
   if (args.isEmpty) {
@@ -42,12 +45,20 @@ Future start() async {
     exitCode = 1;
   } else {
     print('Starting dartmonit...');
-    var process = await Process.start(
-        dartmonExecutable.absolute.path, ['start'],
-        mode: ProcessStartMode.DETACHED);
+    Process process;
+
+    if (Platform.isWindows) {
+      process = await Process.start(windowsPubExecutable.absolute.path,
+          ['global', 'run', 'dartmonit:dartmon', 'start'],
+          mode: ProcessStartMode.DETACHED);
+    } else {
+      process = await Process.start(Platform.resolvedExecutable,
+          [dartmonExecutable.absolute.path, 'start'],
+          mode: ProcessStartMode.DETACHED);
+    }
     if (!await pidFile.exists()) await pidFile.create(recursive: true);
     await pidFile.writeAsString(process.pid.toString());
-    print('dartmonit started');
+    print('dartmonit started with PID ${process.pid}');
   }
 }
 
@@ -64,7 +75,7 @@ Future stop() async {
       exitCode = 1;
     } else {
       await pidFile.delete();
-      print('dartmonit stopped');
+      print('dartmonit process with PID $pid stopped');
     }
   }
 }
@@ -90,7 +101,8 @@ Future uninstall() async {
           await Process.run('update-rc.d', ['-f', 'dartmonit', 'remove']);
 
       if (updateRc.exitCode != 0) {
-        stderr.writeln('"update-rc.d -f dartmonit remove" exited with code ${updateRc.exitCode}');
+        stderr.writeln(
+            '"update-rc.d -f dartmonit remove" exited with code ${updateRc.exitCode}');
         if (updateRc.stdout.isNotEmpty) stdout.writeln(updateRc.stdout);
         if (updateRc.stderr.isNotEmpty) stderr.writeln(updateRc.stderr);
       } else {
