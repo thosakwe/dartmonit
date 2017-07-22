@@ -88,8 +88,10 @@ class StartCommand extends Command {
       /// Start a server in this isolate, so it doesn't immediately exit.
       var app = await dartmonServer(manager, hub.sendPort);
 
-      app.justBeforeStop.add((_) {
+      app.justBeforeStop.add((_) async {
         hub.close();
+
+        if (await pidFile.exists()) await pidFile.delete();
       });
 
       var server = await app.startServer(new InternetAddress(host), port);

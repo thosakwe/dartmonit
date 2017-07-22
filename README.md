@@ -28,6 +28,16 @@ To add a script to `/etc/init.d`:
 sudo dartmonit env "PATH=$PATH" install
 ```
 
+Now, you can run it as a service:
+
+```bash
+sudo service dartmonit start
+sudo /etc/init.d/dartmonit start
+```
+
+You may have better luck with the `/etc/init.d` variant, rather than
+`service`.
+
 # Usage
 dartmonit is essentially an HTTP server,
 which runs as a daemon and exposes a simple API.
@@ -41,16 +51,6 @@ dartmonit start --port 2245
 ```
 
 `2245` is the default port.
-
-Now, you can run it as a service:
-
-```bash
-sudo service dartmonit start
-sudo /etc/init.d/dartmonit start
-```
-
-You may have better luck with the `/etc/init.d` variant, rather than
-`service`.
 
 # Commands
 
