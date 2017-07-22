@@ -76,6 +76,9 @@ Future start() async {
         mode: FileMode.APPEND);
 
     print('dartmonit started with PID ${process.pid}');
+
+    if (!Platform.isWindows)
+      await new Future.delayed(const Duration(seconds: 1));
   }
 }
 

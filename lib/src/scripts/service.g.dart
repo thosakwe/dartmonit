@@ -66,7 +66,7 @@ Future start() async {
     } else {
       process = await Process.start('sudo',
           [Platform.resolvedExecutable, dartmonSnapshot.absolute.path, 'start'],
-          mode: ProcessStartMode.DETACHED);
+          mode: ProcessStartMode.DETACHED_WITH_STDIO);
     }
     if (!await pidFile.exists()) await pidFile.create(recursive: true);
     await pidFile.writeAsString(process.pid.toString());
@@ -76,6 +76,9 @@ Future start() async {
         mode: FileMode.APPEND);
 
     print('dartmonit started with PID ${process.pid}');
+
+    if (!Platform.isWindows)
+      await new Future.delayed(const Duration(seconds: 1));
   }
 }
 
