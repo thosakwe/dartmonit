@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:collection/equality.dart';
+import 'package:collection/collection.dart';
 import 'dart:convert';
 import 'package:angel_framework/angel_framework.dart';
 import 'package:http/http.dart' as http;

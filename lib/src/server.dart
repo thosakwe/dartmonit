@@ -4,7 +4,6 @@ import 'dart:isolate';
 import 'package:angel_diagnostics/angel_diagnostics.dart';
 import 'package:angel_framework/angel_framework.dart';
 import 'package:angel_validate/server.dart';
-import 'auth.dart';
 import 'manager.dart';
 import 'validators.dart';
 
