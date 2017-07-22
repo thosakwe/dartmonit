@@ -16,24 +16,33 @@ final File windowsPubExecutable =
 final File dartmonSnapshot = new File.fromUri(pubCacheDir.uri
     .resolve('global_packages/dartmonit/bin/dartmon.dart.snapshot'));
 
-main(List<String> args) {
-  if (args.isEmpty) {
-    stderr.writeln(
-        'fatal error: no argument provided (expected start|stop|restart)');
-    exitCode = 1;
-  } else {
-    switch (args.first) {
-      case 'start':
-        return start();
-      case 'stop':
-        return stop();
-      case 'restart':
-        return restart();
-      default:
-        stderr.writeln('unrecognized option: "${args.first}"');
-        exitCode = 1;
-        break;
+main(List<String> args) async {
+  try {
+    if (args.isEmpty) {
+      stderr.writeln(
+          'fatal error: no argument provided (expected start|stop|restart)');
+      exitCode = 1;
+    } else {
+      switch (args.first) {
+        case 'start':
+          return await start();
+        case 'stop':
+          return await stop();
+        case 'restart':
+          return await restart();
+        default:
+          stderr.writeln('unrecognized option: "${args.first}"');
+          exitCode = 1;
+          break;
+      }
     }
+  } catch (e, st) {
+    stderr..writeln(e)..writeln(st);
+
+    try {
+      var sink = logFile.openWrite(mode: FileMode.APPEND);
+      sink..writeln(e)..writeln(st);
+    } catch (_) {}
   }
 }
 
@@ -50,8 +59,8 @@ Future start() async {
           ['global', 'run', 'dartmonit:dartmon', 'start'],
           mode: ProcessStartMode.DETACHED);
     } else {
-      process = await Process.start(Platform.resolvedExecutable,
-          [dartmonSnapshot.absolute.path, 'start'],
+      process = await Process.start(
+          Platform.resolvedExecutable, [dartmonSnapshot.absolute.path, 'start'],
           mode: ProcessStartMode.DETACHED);
     }
     if (!await pidFile.exists()) await pidFile.create(recursive: true);

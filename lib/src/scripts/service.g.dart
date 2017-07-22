@@ -16,7 +16,7 @@ final File windowsPubExecutable =
 final File dartmonSnapshot = new File.fromUri(pubCacheDir.uri
     .resolve('global_packages/dartmonit/bin/dartmon.dart.snapshot'));
 
-main(List<String> args) {
+main(List<String> args) async {
   try {
     if (args.isEmpty) {
       stderr.writeln(
@@ -25,11 +25,11 @@ main(List<String> args) {
     } else {
       switch (args.first) {
         case 'start':
-          return start();
+          return await start();
         case 'stop':
-          return stop();
+          return await stop();
         case 'restart':
-          return restart();
+          return await restart();
         default:
           stderr.writeln('unrecognized option: "${args.first}"');
           exitCode = 1;
