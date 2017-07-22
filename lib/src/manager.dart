@@ -42,7 +42,8 @@ class ChildProcessManager {
           message:
               'Cannot remove process "name" - it doesn\'t exist in the queue.');
     else {
-      return new Future<ChildProcessInfo>.value(_processes.remove(name));
+      var p = _processes.remove(name);
+      return saveQueue().then((_) => p);
     }
   }
 
@@ -64,17 +65,22 @@ class ChildProcessManager {
     }
   }
 
-  /// Kill all processes, and save a list for the next run.
-  Future shutdown() async {
+  Future saveQueue() async {
     var queueFile = await resolveDartmonQueueFile();
     var sink = queueFile.openWrite();
 
     for (var info in _processes.values) {
-      if (info.status) info.close();
       if (info._uri != null) sink.writeln(info._uri);
     }
+  }
 
-    await sink.close();
+  /// Kill all processes, and save a list for the next run.
+  Future shutdown() async {
+    await saveQueue();
+
+    for (var info in _processes.values) {
+      if (info.status) info.close();
+    }
   }
 
   Future<ChildProcessInfo> start(path) async {
@@ -92,6 +98,7 @@ class ChildProcessManager {
     var file = new File.fromUri(path is Uri ? path : Uri.parse(path));
     var info = new ChildProcessInfo(file.absolute.path, name);
     _processes[name] = info;
+    await saveQueue();
     return info.._start();
   }
 }

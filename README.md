@@ -42,11 +42,15 @@ dartmonit start --port 2245
 
 `2245` is the default port.
 
-On Ubuntu, you can run it as a service...
+Now, you can run it as a service:
 
 ```bash
 sudo service dartmonit start
+sudo /etc/init.d/dartmonit start
 ```
+
+You may have better luck with the `/etc/init.d` variant, rather than
+`service`.
 
 # Commands
 
