@@ -34,7 +34,10 @@ Future<Angel> dartmonServer(
 
     router.chain(resolveProcess)
       ..get('/:id', (ChildProcessInfo info) => info.toJson())
-      ..delete('/:id', (ChildProcessInfo info) {
+      ..delete('/:id', (String id, ChildProcessManager manager) {
+        return manager.remove(id);
+      })
+      ..post('/:id/kill', (ChildProcessInfo info) {
         info.close();
         return info.toJson();
       });

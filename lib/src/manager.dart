@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
+import 'package:angel_framework/angel_framework.dart';
 import 'package:path/path.dart' as p;
 
 class ChildProcessManager {
@@ -34,6 +35,16 @@ class ChildProcessManager {
 
   Map<String, ChildProcessInfo> get processes =>
       new Map<String, ChildProcessInfo>.unmodifiable(_processes);
+
+  Future<ChildProcessInfo> remove(String name) {
+    if (!_processes.containsKey(name))
+      throw new AngelHttpException.notFound(
+          message:
+              'Cannot remove process "name" - it doesn\'t exist in the queue.');
+    else {
+      return new Future<ChildProcessInfo>.value(_processes.remove(name));
+    }
+  }
 
   /// Check for pre-configured processes, and start them if need be.
   Future boot() async {

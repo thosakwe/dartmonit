@@ -1,10 +1,28 @@
 # dartmonit
 Monitor Dart scripts, and run them on startup. This is very early in the development stages, so expect some changes.
 
+
+Running `dartmonit` as a daemon is currently only supported on Linux and Windows.
 # Installation
+
+For Unix/Linux variants:
 ```bash
 pub global activate dartmonit
 ```
+
+On Windows, you need to clone this repository, and add `bin/dartmonit.bat` to
+your `PATH`. The reason for this is that having `dartmonit` saved on your
+filesystem allows the `install` command to install the included Windows service,
+written in C#, and compiled to an `.exe`.
+
+```batch
+git clone https://github.com/thosakwe/dartmonit.git
+SET PATH="<dartmonit-root>\bin";%PATH%
+```
+
+See
+[here](https://www.java.com/en/download/help/path.xml)
+for a look at how to set environment variables system-wide.
 
 To add a script to `/etc/init.d`:
 ```bash

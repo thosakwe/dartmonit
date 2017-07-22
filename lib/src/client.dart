@@ -46,6 +46,19 @@ class DartmonClient {
   }
 
   Future<ChildProcessInfo> kill(String name) async {
+    var response = await _client.post('$baseUrl/api/processes/$name/kill',
+        headers: {'accept': 'application/json'});
+
+    if (response.statusCode != 200)
+      throw new AngelHttpException.fromJson(response.body);
+    else if (response.headers['content-type']?.contains('application/json') !=
+        true)
+      throw 'dartmonit server did not respond with JSON';
+    else
+      return new ChildProcessInfo.fromJson(JSON.decode(response.body));
+  }
+
+  Future<ChildProcessInfo> remove(String name) async {
     var response = await _client.delete('$baseUrl/api/processes/$name',
         headers: {'accept': 'application/json'});
 
